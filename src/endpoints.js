@@ -7,19 +7,31 @@ const server = Router();
 // endpoints
 // dobro with route parameters
 server.get("/dobro/:numero", (req, resp) => {
-  resp.send({
-    dobro: dobro(Number(req.params.numero)),
-  });
+  try {
+    resp.send({
+      dobro: dobro(Number(req.params.numero)),
+    });
+  } catch (err) {
+    resp.status(500).send({
+      error: err.message,
+    });
+  }
 });
 
 // soma with query parameters
 server.get("/soma", (req, resp) => {
-  const a = Number(req.query.a);
-  const b = Number(req.query.b);
-  const x = somar(a, b);
-  resp.send({
-    soma: x,
-  });
+  try {
+    const a = Number(req.query.a);
+    const b = Number(req.query.b);
+    const x = somar(a, b);
+    resp.send({
+      soma: x,
+    });
+  } catch (err) {
+    resp.status(500).send({
+      error: err.message,
+    });
+  }
 });
 
 // soma with body parameters
@@ -30,40 +42,64 @@ server.post("/soma", (req, resp) => {
       soma: somar(a, b),
     });
   } catch (err) {
-    resp.status(400).send({
+    resp.status(500).send({
       erro: err.message,
     });
   }
 });
 
 server.get("/corprimaria/:cor", (req, resp) => {
-  const color = req.params.cor;
-  resp.send({
-    primaria: cor(color),
-  });
+  try {
+    const color = req.params.cor;
+    resp.send({
+      primaria: cor(color),
+    });
+  } catch (err) {
+    resp.status(500).send({
+      error: err.message,
+    });
+  }
 });
 
 server.post("/ingresso", (req, resp) => {
-  const { inteira, meia, dia, nacionalidade } = req.body;
-  resp.send({
-    total: ingresso(inteira, meia, dia, nacionalidade),
-  });
+  try {
+    const { inteira, meia, dia, nacionalidade } = req.body;
+    resp.send({
+      total: ingresso(inteira, meia, dia, nacionalidade),
+    });
+  } catch (err) {
+    resp.status(500).send({
+      error: err.message,
+    });
+  }
 });
 
 server.get("/texto/:txt/:caracter", (req, resp) => {
-  const t = req.params.txt
-  const c = req.params.caracter
-  resp.send({
-    valor: text(t, c)
-  })
+  try {
+    const t = req.params.txt;
+    const c = req.params.caracter;
+    resp.send({
+      valor: text(t, c),
+    });
+  } catch (err) {
+    resp.status(500).send({
+      error: err.message,
+    });
+  }
 });
 
 server.post("/maior", (req, resp) => {
-  const numero = req.body
-  const x = maiornumero(numero)
-  resp.send({
-    maior: x
-  })
-})
+  try {
+    const numero = req.body;
+    const x = maiornumero(numero);
+    resp.send({
+      maior: x,
+    });
+  } catch (err) {
+    resp.status(500).send({
+      error: err.message,
+    });
+  }
+});
 
 export default server;
